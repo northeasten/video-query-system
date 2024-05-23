@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="xu@192.168.13.128:2222 password (2)" deleteMissingItems="true" remoteFilesAllowedToDisappearOnAutoupload="false" autoUploadExternalChanges="true">
+    <serverData>
+      <paths name="linuxmint">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="xu@192.168.13.128:2222 password">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/xu/WorkSpace" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="xu@192.168.13.128:2222 password (2)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/xu/WorkSpace1/5.23" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>

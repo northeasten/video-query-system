@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="f5364242-57ff-4a2e-9c76-ec5b53f89236" name="linuxmint">
+        <fileTransfer rootFolder="/home/xu" accessType="SFTP" host="192.168.13.128" port="2222" sshConfigId="e00a751e-89e7-44a3-8be5-95045aef0c3e" sshConfig="xu@192.168.13.128:2222 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
