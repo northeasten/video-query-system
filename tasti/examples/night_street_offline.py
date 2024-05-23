@@ -20,7 +20,7 @@ from tqdm.autonotebook import tqdm
 from blazeit.aggregation.samplers import ControlCovariateSampler
 
 # Feel free to change this!
-ROOT_DATA_DIR = '/lfs/1/jtguibas/data'
+ROOT_DATA_DIR = '/home/xu/WorkSpace1/5.23/data'
 
 '''
 VideoDataset allows you to access frames of a given video.
