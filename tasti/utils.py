@@ -9,7 +9,7 @@ These classes will allow you to still use the BlazeIt and SUPG algorithms by exe
 
 class DNNOutputCache:
     def __init__(self, target_dnn, dataset, target_dnn_callback=lambda x: x):
-        target_dnn.cuda()
+        target_dnn.cpu()
         target_dnn.eval()
         self.target_dnn = target_dnn
         self.dataset = dataset
@@ -24,7 +24,7 @@ class DNNOutputCache:
     def __getitem__(self, idx):
         if self.cache[idx] == None:
             with torch.no_grad():
-                record = self.dataset[idx].unsqueeze(0).cuda()
+                record = self.dataset[idx].unsqueeze(0).cpu()
                 result = self.target_dnn(record)
             result = self.target_dnn_callback(result)
             self.cache[idx] = result
