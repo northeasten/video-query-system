@@ -3,6 +3,8 @@ import torchvision
 import tasti
 import numpy as np
 from tqdm.autonotebook import tqdm
+#尝试online生成csv
+import pandas as pd
 
 class Index:
     def __init__(self, config):
@@ -126,7 +128,27 @@ class Index:
             
             for idx in tqdm(self.training_idxs, desc='Target DNN'):
                 self.target_dnn_cache[idx]
-            
+
+            #online文件生成scv尝试
+            # results = []
+            # for idx in tqdm(self.training_idxs, desc='Target DNN'):
+            #     for box in self.target_dnn_cache[idx]:
+            #         results.append({
+            #             'frame': idx,
+            #             'object_name': box.object_name,
+            #             'confidence': box.confidence,
+            #             'xmin': box.xmin,
+            #             'ymin': box.ymin,
+            #             'xmax': box.xmax,
+            #             'ymax': box.ymax,
+            #             'ind': self.target_dnn_cache[idx].index(box)
+            #         })
+            # print(results)
+            #     # 将结果列表转换为 pandas DataFrame
+            # df = pd.DataFrame(results)
+            # # 保存到 CSV 文件
+            # df.to_csv('/home/xu/WorkSpace1/5.23/test/all_results.csv', index=False)
+
             dataset = self.get_embedding_dnn_dataset(train_or_test='train')
             triplet_dataset = tasti.data.TripletDataset(
                 dataset=dataset,
@@ -163,7 +185,7 @@ class Index:
                 loss.backward()
                 optimizer.step()
                 
-            torch.save(model.state_dict(), '.\\cache\\model.pt')
+            torch.save(model.state_dict(), '/home/xu/WorkSpace1/5.23/test/model.pt')
             self.embedding_dnn = model
         else:
             self.embedding_dnn = self.get_pretrained_embedding_dnn()
@@ -172,9 +194,11 @@ class Index:
         self.target_dnn_cache = tasti.DNNOutputCache(
             self.get_target_dnn(),
             self.get_target_dnn_dataset(train_or_test='test'),
+            #self.get_target_dnn_dataset(train_or_test='train'),
             self.target_dnn_callback
         )
         self.target_dnn_cache = self.override_target_dnn_cache(self.target_dnn_cache, train_or_test='test')
+        #self.target_dnn_cache = self.override_target_dnn_cache(self.target_dnn_cache, train_or_test='train')
         
             
     def do_infer(self):
@@ -206,7 +230,14 @@ class Index:
             embeddings = torch.cat(embeddings, dim=0)
             embeddings = embeddings.numpy()
 
-            np.save('.\\cache\\embeddings.npy', embeddings)
+            #query1测试
+            #np.save('.\\cache\\embeddings.npy', embeddings)
+            np.save('/home/xu/WorkSpace1/5.23/test/embeddings.npy', embeddings)
+            print("数据类型:", type(embeddings))
+            print("数组形状:", embeddings.shape)
+            print("数组数据类型:", embeddings.dtype)
+            print("数组内容:")
+            print(embeddings)
             self.embeddings = embeddings
         else:
             self.embeddings = np.load('.\\cache\\embeddings.npy')
@@ -218,9 +249,13 @@ class Index:
         if self.config.do_bucketting:
             bucketter = tasti.bucketters.FPFRandomBucketter(self.config.nb_buckets, self.seed)
             self.reps, self.topk_reps, self.topk_dists = bucketter.bucket(self.embeddings, self.config.max_k)
-            np.save('.\\cache\\reps.npy', self.reps)
-            np.save('.\\cache\\topk_reps.npy', self.topk_reps)
-            np.save('.\\cache\\topk_dists.npy', self.topk_dists)
+            #np.save('.\\cache\\reps.npy', self.reps)
+            #np.save('.\\cache\\topk_reps.npy', self.topk_reps)
+            #np.save('.\\cache\\topk_dists.npy', self.topk_dists)
+            #query1测试
+            np.save('/home/xu/WorkSpace1/5.23/test/reps.npy', self.reps)
+            np.save('/home/xu/WorkSpace1/5.23/test/topk_reps.npy', self.topk_reps)
+            np.save('/home/xu/WorkSpace1/5.23/test/topk_dists.npy', self.topk_dists)
         else:
             self.reps = np.load('.\\cache\\reps.npy')
             self.topk_reps = np.load('.\\cache\\topk_reps.npy')
@@ -235,9 +270,13 @@ class Index:
         cached_idxs = np.array(cached_idxs)
         bucketter = tasti.bucketters.CrackingBucketter(self.config.nb_buckets)
         self.reps, self.topk_reps, self.topk_dists = bucketter.bucket(self.embeddings, self.config.max_k, cached_idxs)
-        np.save('.\\cache\\reps.npy', self.reps)
-        np.save('.\\cache\\topk_reps.npy', self.topk_reps)
-        np.save('.\\cache\\topk_dists.npy', self.topk_dists)
+        #np.save('.\\cache\\reps.npy', self.reps)
+        #np.save('.\\cache\\topk_reps.npy', self.topk_reps)
+        #np.save('.\\cache\\topk_dists.npy', self.topk_dists)
+        # query1测试
+        np.save('/home/xu/WorkSpace1/5.23/test/reps.npy', self.reps)
+        np.save('/home/xu/WorkSpace1/5.23/test/topk_reps.npy', self.topk_reps)
+        np.save('/home/xu/WorkSpace1/5.23/test/topk_dists.npy', self.topk_dists)
 
         
     def init(self):
@@ -248,3 +287,5 @@ class Index:
         
         for rep in tqdm(self.reps, desc='Target DNN Invocations'):
             self.target_dnn_cache[rep]
+            #query1测试
+            #print('rep',rep)

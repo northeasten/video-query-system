@@ -29,7 +29,7 @@ from tasti.examples.night_street_offline import NightStreetLHSRecallQuery
 from tasti.examples.night_street_offline import NightStreetAveragePositionAggregateQuery
 
 # Feel free to change this!
-ROOT_DATA_DIR = '/lfs/1/jtguibas/data'
+ROOT_DATA_DIR = '/home/xu/WorkSpace1/5.23/data'
 
 # os.environ['TORCH_HOME'] = '/lfs/1/jtguibas/models'
 # os.environ['FVCORE_CACHE'] = '/lfs/1/jtguibas/models'

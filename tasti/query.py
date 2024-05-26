@@ -31,9 +31,16 @@ class BaseQuery:
             )
             y_pred = np.zeros(len(topk_reps))
 
+            #query1测试
+            print("Length of y_true:", len(y_true))
+            print("Length of y_pred:", len(y_pred))
+
             for i in tqdm(range(len(y_pred)), 'Propagation'):
                 weights = topk_distances[i]
                 weights = np.sum(weights) - weights
+                # query1测试
+                #print(f"Weights for iteration {i}: {weights}")
+                #print(f"Sum of weights for iteration {i}: {weights.sum()}")
                 weights = weights / weights.sum()
                 counts = y_true[topk_reps[i]]
                 y_pred[i] =  np.sum(counts * weights)

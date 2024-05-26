@@ -180,9 +180,11 @@ class NightStreetOfflineIndex(tasti.Index):
     
     def override_target_dnn_cache(self, target_dnn_cache, train_or_test):
         if train_or_test == 'train':
-            labels_fp = os.path.join(ROOT_DATA_DIR, 'jackson-town-square-2017-12-14.csv')
+            #labels_fp = os.path.join(ROOT_DATA_DIR, 'jackson-town-square-2017-12-14.csv')
+            labels_fp = '/home/xu/WorkSpace1/5.23/test/all_results.csv'
         else:
-            labels_fp = os.path.join(ROOT_DATA_DIR, 'jackson-town-square-2017-12-17.csv')
+            #labels_fp = os.path.join(ROOT_DATA_DIR, 'jackson-town-square-2017-12-17.csv')
+            raise NotImplementedError
         labels = LabelDataset(
             labels_fp=labels_fp,
             length=len(target_dnn_cache)
@@ -255,7 +257,8 @@ class NightStreetOfflineConfig(tasti.IndexConfig):
     def __init__(self):
         super().__init__()
         self.do_mining = True
-        self.do_training = True
+        #self.do_training = True
+        self.do_training = False
         self.do_infer = True
         self.do_bucketting = True
         
@@ -266,29 +269,56 @@ class NightStreetOfflineConfig(tasti.IndexConfig):
         self.max_k = 5
         self.nb_buckets = 7000
         self.nb_training_its = 12000
+
+        self.batch_size = 16
+        self.nb_train = 1000
+        self.train_margin = 1.0
+        self.train_lr = 1e-4
+        self.max_k = 5
+        self.nb_buckets = 1000
+        self.nb_training_its = 1000
     
 if __name__ == '__main__':
     config = NightStreetOfflineConfig()
     index = NightStreetOfflineIndex(config)
     index.init()
 
+    #query = NightStreetAggregateQuery(index)
+    #query1_result=query.execute_metrics(err_tol=0.01, confidence=0.05)
     query = NightStreetAggregateQuery(index)
-    query.execute_metrics(err_tol=0.01, confidence=0.05)
+    query1_result=query.execute(err_tol=0.1, confidence=0.1)
+    print("下面是query")
+    print(query1_result)
+    print("Initial estimate:", query1_result['initial_estimate'])
+    print("Debiased estimate:", query1_result['debiased_estimate'])
+    print("Number of samples:", query1_result['nb_samples'])
+    print("Predicted values:", query1_result['y_pred'])
+    print("True values:", query1_result['y_true'])
+    print("上面是query")
     
-    query = NightStreetAveragePositionAggregateQuery(index)
-    query.execute_metrics(err_tol=0.005, confidence=0.05)
+    #query = NightStreetAveragePositionAggregateQuery(index)
+    #query.execute_metrics(err_tol=0.005, confidence=0.05)
 
-    query = NightStreetLimitQuery(index)
-    query.execute_metrics(want_to_find=5, nb_to_find=10)
+    #query = NightStreetLimitQuery(index)
+    #query1_result = query.execute_metrics(want_to_find=5, nb_to_find=10)
 
-    query = NightStreetSUPGPrecisionQuery(index)
-    query.execute_metrics(10000)
+    #测试上一个query打印问题，该段落运行正常
+    # query = NightStreetLimitQuery(index)
+    # query1_result=query.execute(want_to_find=4, nb_to_find=3)
+    # print("下面是query")
+    # print(query1_result)
+    # print("Number of calls:", query1_result['nb_calls'])
+    # print("Returned indices:", query1_result['ret_inds'])
+    # print("上面是query")
 
-    query = NightStreetSUPGRecallQuery(index)
-    query.execute_metrics(10000)
+    #query = NightStreetSUPGPrecisionQuery(index)
+    #query.execute_metrics(10000)
 
-    query = NightStreetLHSPrecisionQuery(index)
-    query.execute_metrics(10000)
+    #query = NightStreetSUPGRecallQuery(index)
+    #query.execute_metrics(10000)
 
-    query = NightStreetLHSRecallQuery(index)
-    query.execute_metrics(10000)    
+    #query = NightStreetLHSPrecisionQuery(index)
+    #query.execute_metrics(10000)
+
+    #query = NightStreetLHSRecallQuery(index)
+    #query.execute_metrics(10000)
